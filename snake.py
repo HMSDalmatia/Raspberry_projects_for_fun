@@ -10,8 +10,8 @@ i2c = I2C(sda=Pin(0), scl=Pin(1))
 oled_width = 128
 oled_height = 64
 oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
-KOLOR_TLA = 0 # Ustaw na 1 (biały) jeśli fill(0) daje biały ekran
-KOLOR_PIKSELA = 1 # Wtedy piksel ma kolor przeciwny
+background_color = 0 # 1 white 0 black
+pixel_color = 1 
 snake_start_length = 5
 # sample functions from gemini
 def rysuj_przekatna():
@@ -31,11 +31,11 @@ def animacja_chodzacy_piksel(czas_trwania=5):
     while (time.time() - start_time) < czas_trwania:
         for x in range(oled_width):
             # 1. Wyczyść poprzednią klatkę
-            oled.fill(KOLOR_TLA) 
+            oled.fill(background_color) 
 
             # 2. Rysuj nowy piksel
             # Użyj np. 32 dla stałej wysokości
-            oled.pixel(x, 32, KOLOR_PIKSELA) 
+            oled.pixel(x, 32, pixel_color) 
 
             # 3. Wyślij nową klatkę do wyświetlacza
             oled.show()
@@ -53,6 +53,9 @@ def snake(head_pixel_x, head_pixel_y, tail_pixel_x, tail_pixel_y, break_x, break
     len_break_tail = round(((break_pixel_x - tail_pixel_x)**2 + (break_pixel_y - tail_pixel_y)**2)**0.5)
     while len_head_tail + len_break_tail < snake_length:
         len_break_tail += 1
+    # clearing screen
+    for x in range(oled_width):
+            oled.fill(background_color) 
 animacja_chodzacy_piksel()
 # rysuj_przekatna()
 
