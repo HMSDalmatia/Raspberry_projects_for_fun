@@ -26,21 +26,26 @@ def movement(sn, direct):
             sn[i][0] += 1
     elif direct=='l': # left
         for i in range(len(sn)):
-            sn[i][1] -= 1
+            sn[i][1] += 1
     elif direct=='r': # right
         for i in range(len(sn)):
-            sn[i][1] += 1
+            sn[i][1] -= 1
     elif direct=='d': # up
         for i in range(len(sn)):
             sn[i][0] -= 1
 
+def turn_helper(new, old, num_change):
+    for i in range(len(snake)):
+            snake[i][1] += num_change
+            movement(snake[:i+1], new)
+            movement(snake[i+1:], old)
+
 def turn(direc):
-    if direc == 'l' and direction == 'u': # left
-        for i in range(len(snake)):
-            snake[i][1] += 1
-            movement(snake[:i+1], 'l')
-            movement(snake[i+1:], 'u')
-            print(snake)
+    if direc == 'l' and direction == 'u':
+        turn_helper('l', 'u', 1)
+    elif direc == 'l' and direction == 'd':
+        turn_helper('l', 'd', 1)
+    
             
 
 while True:
